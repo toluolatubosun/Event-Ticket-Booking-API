@@ -26,11 +26,11 @@ ENV NODE_ENV=production
 
 # Custom build workflows should be added below here
 # ==========================================
-# - Build TSC
-RUN yarn build
-
 # - Run Prisma Setup Command
 RUN yarn prisma:setup
+
+# - Build TSC
+RUN yarn build
 
 # - Copy the public folder to the dist folder
 RUN cp -r public dist/public
