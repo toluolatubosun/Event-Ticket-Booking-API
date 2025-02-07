@@ -1,0 +1,21 @@
+meta {
+  name: Book Event
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{BASE_URL}}/v1/events/book
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+    "event_id": "123456"
+  }
+}

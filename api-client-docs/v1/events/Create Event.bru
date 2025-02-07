@@ -1,0 +1,26 @@
+meta {
+  name: Create Event
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{BASE_URL}}/v1/events/initialize
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+    "title": "Hello World",
+    "description": "World Best Hello Event",
+    "location": "Lagos, Nigeria",
+    "start_date_time": "2025-02-04T10:32:49Z",
+    "end_date_time": "2025-02-04T16:32:49Z",
+    "number_of_tickets": 100
+  }
+}

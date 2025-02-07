@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:15.6
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ticketing-system
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5420:5432"
+
+  redis:
+    image: redis:6.2.6
+    ports:
+      - "6379:6379"
+      
+volumes:
+  postgres_data:

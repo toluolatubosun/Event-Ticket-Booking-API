@@ -1,0 +1,21 @@
+meta {
+  name: Cancel Event Booking
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{BASE_URL}}/v1/events/booking/cancel
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
+
+body:json {
+  {
+    "event_id": "cm6qgd5ec0004uee4wmtihw3a"
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get Event Status
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{BASE_URL}}/v1/events/status/cm6qgd5ec0004uee4wmtihw3a
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{ACCESS_TOKEN}}
+}
