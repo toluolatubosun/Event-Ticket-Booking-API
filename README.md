@@ -93,6 +93,7 @@ NODE_ENV=production
 DATABASE_URL=
 REDIS_URI=
 JWT_SECRET=
+DIRECT_URL=
 ```
 
 ## API Documentation
