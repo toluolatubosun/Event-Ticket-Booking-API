@@ -31,9 +31,6 @@ RUN yarn prisma:setup
 
 # - Build TSC
 RUN yarn build
-
-# - Copy the public folder to the dist folder
-RUN cp -r public dist/public
 # ==========================================
 
 # Set port environment variable
