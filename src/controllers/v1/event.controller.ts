@@ -23,6 +23,16 @@ class EventController {
         const result = await EventService.getEventStatus(req);
         res.status(200).send(response("Event status retrieved successfully", result));
     }
+
+    async getAllMyEvents(req: Request, res: Response) {
+        const result = await EventService.getAllMyEvents(req);
+        res.status(200).send(response("All events retrieved successfully", result));
+    }
+
+    async discoverEvents(req: Request, res: Response) {
+        const result = await EventService.discoverEvents(req);
+        res.status(200).send(response("Events discovered successfully", result));
+    }
 }
 
 export default new EventController();

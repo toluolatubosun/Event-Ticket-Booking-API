@@ -134,6 +134,36 @@ class EventService {
 
         return events;
     }
+
+    async discoverEvents({ query }: Partial<Request>) {
+        const { error, data } = z
+            .object({
+                query: z.object({
+                    page: z.number().int().positive().optional().default(1),
+                    limit: z.number().int().positive().optional().default(10)
+                })
+            })
+            .safeParse({ query });
+        if (error) throw new CustomError(extractZodError(error));
+
+        const events = await prisma.event.findMany({
+            take: data.query.limit,
+            skip: data.query.limit * (data.query.page - 1),
+            include: { _count: { select: { event_tickets: true, event_ticket_waiting_list: true } } }
+        });
+
+        const totalEvents = await prisma.event.count();
+
+        return {
+            data: events,
+            pagination: {
+                total: totalEvents,
+                page: data.query.page,
+                limit: data.query.limit,
+                total_pages: Math.ceil(totalEvents / data.query.limit)
+            }
+        };
+    }
 }
 
 export default new EventService();
