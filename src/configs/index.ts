@@ -44,7 +44,7 @@ const CONFIG_BUILDER = {
     test: {
         ...GLOBAL_CONSTANTS,
 
-        CORS_ALLOWED_ORIGINS: ["http://localhost:3000"],
+        CORS_ALLOWED_ORIGINS: ["http://localhost:3000", "http://localhost:5173"],
 
         JWT_SECRET: "T4u2Rcnne09F.FBr11f0VvERyUiq",
 
@@ -60,7 +60,7 @@ const CONFIG_BUILDER = {
     development: {
         ...GLOBAL_CONSTANTS,
 
-        CORS_ALLOWED_ORIGINS: ["http://localhost:3000"],
+        CORS_ALLOWED_ORIGINS: ["http://localhost:3000", "http://localhost:5173"],
 
         JWT_SECRET: "T4u2Rcnne09F.FBr11f0VvERyUiq",
 
@@ -76,7 +76,7 @@ const CONFIG_BUILDER = {
     production: {
         ...GLOBAL_CONSTANTS,
 
-        CORS_ALLOWED_ORIGINS: ["http://example.com"],
+        CORS_ALLOWED_ORIGINS: ["http://example.com", "http://localhost:5173"],
 
         JWT_SECRET: process.env.JWT_SECRET!,
 
