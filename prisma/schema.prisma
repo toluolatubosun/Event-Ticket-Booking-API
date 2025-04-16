@@ -44,20 +44,20 @@ model Token {
 }
 
 model Event {
-  id                     String                   @id @default(cuid(2))
-  title                  String                   @db.VarChar(255)
-  location               String                   @db.Text
-  description            String                   @db.Text
-  end_date_time          DateTime
-  start_date_time        DateTime
-  total_tickets          Int
-  available_tickets      Int
-  user_id                String                   @db.VarChar(255)
-  user                   User                     @relation(fields: [user_id], references: [id])
-  updated_at             DateTime                 @updatedAt
-  created_at             DateTime                 @default(now())
-  event_tickets          EventTicket[]
-  EventTicketWaitingList EventTicketWaitingList[]
+  id                        String                   @id @default(cuid(2))
+  title                     String                   @db.VarChar(255)
+  location                  String                   @db.Text
+  description               String                   @db.Text
+  end_date_time             DateTime
+  start_date_time           DateTime
+  total_tickets             Int
+  available_tickets         Int
+  user_id                   String                   @db.VarChar(255)
+  user                      User                     @relation(fields: [user_id], references: [id])
+  updated_at                DateTime                 @updatedAt
+  created_at                DateTime                 @default(now())
+  event_tickets             EventTicket[]
+  event_ticket_waiting_list EventTicketWaitingList[]
 
   @@map("events")
 }

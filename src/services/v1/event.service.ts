@@ -118,6 +118,22 @@ class EventService {
 
         return { available_tickets: event.available_tickets, waiting_list_count: waitingListCount };
     }
+
+    async getAllMyEvents({ $currentUser }: Partial<Request>) {
+        const { error, data } = z
+            .object({
+                $currentUser: z.custom<User>()
+            })
+            .safeParse({ $currentUser });
+        if (error) throw new CustomError(extractZodError(error));
+
+        const events = await prisma.event.findMany({
+            where: { user_id: data.$currentUser.id },
+            include: { _count: { select: { event_tickets: true, event_ticket_waiting_list: true } } }
+        });
+
+        return events;
+    }
 }
 
 export default new EventService();
