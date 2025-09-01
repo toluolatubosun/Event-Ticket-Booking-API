@@ -141,6 +141,9 @@ To use these, import the Bruno files into an API client (e.g., Bruno) and set th
 - **DELETE /v1/events/booking/cancel**  
   Cancels a previously booked event ticket.
 
+- **DELETE /v1/events/:event_id**  
+  Deletes an event (only the event creator can delete their own events).
+
 - **GET /v1/users/me**  
   Retrieves details of the currently authenticated user.
 
