@@ -18,4 +18,6 @@ router.post("/book", auth(CONFIGS.APP_ROLES.USER), EventCtrl.createEventBooking)
 
 router.delete("/booking/cancel", auth(CONFIGS.APP_ROLES.USER), EventCtrl.cancelEventBooking);
 
+router.delete("/:event_id", auth(CONFIGS.APP_ROLES.USER), EventCtrl.deleteEvent);
+
 export default router;

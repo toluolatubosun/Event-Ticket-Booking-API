@@ -164,6 +164,40 @@ class EventService {
             }
         };
     }
+
+    async deleteEvent({ params, $currentUser }: Partial<Request>) {
+        const { error, data } = z
+            .object({
+                params: z.object({
+                    event_id: z.string().cuid2()
+                }),
+                $currentUser: z.custom<User>()
+            })
+            .safeParse({ params, $currentUser });
+        if (error) throw new CustomError(extractZodError(error));
+
+        const event = await prisma.event.findUnique({ where: { id: data.params.event_id } });
+        if (!event) throw new CustomError("Event not found");
+
+        // Check if the event belongs to the current user
+        if (event.user_id !== data.$currentUser.id) {
+            throw new CustomError("You are not authorized to delete this event");
+        }
+
+        // Delete the event and all related resources
+        await prisma.$transaction(async (tx) => {
+            // Delete event tickets
+            await tx.eventTicket.deleteMany({ where: { event_id: event.id } });
+
+            // Delete waiting list entries
+            await tx.eventTicketWaitingList.deleteMany({ where: { event_id: event.id } });
+
+            // Delete the event
+            await tx.event.delete({ where: { id: event.id } });
+        });
+
+        return { message: "Event deleted successfully" };
+    }
 }
 
 export default new EventService();

@@ -9,6 +9,11 @@ class EventController {
         res.status(201).send(response("Event created successfully", result));
     }
 
+    async deleteEvent(req: Request, res: Response) {
+        const result = await EventService.deleteEvent(req);
+        res.status(200).send(response("Event deleted successfully", result));
+    }
+
     async createEventBooking(req: Request, res: Response) {
         const result = await EventService.createEventBooking(req);
         res.status(200).send(response("Event booking submitted successfully", result));
