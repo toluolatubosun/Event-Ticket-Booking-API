@@ -123,4 +123,17 @@ describe("Event Endpoints", () => {
         expect(response.body).toHaveProperty("data");
         expect(response.body.data).toHaveProperty("notification");
     });
+
+    test("DELETE /v1/events/:event_id - should delete an event", async () => {
+        prismaMock.user.findUnique.mockResolvedValue(dummyUser);
+        prismaMock.event.findUnique.mockResolvedValue(dummyEvent);
+        prismaMock.$transaction.mockResolvedValue(undefined);
+
+        const response = await request(app).delete(`/v1/events/${dummyEvent.id}`).set("Authorization", `Bearer ${dummyUserJWT}`);
+
+        expect(response.status).toBe(200);
+        expect(response.body).toHaveProperty("data");
+        expect(response.body.data).toHaveProperty("message");
+        expect(response.body.data.message).toBe("Event deleted successfully");
+    });
 });

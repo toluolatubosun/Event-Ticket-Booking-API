@@ -144,6 +144,12 @@ To use these, import the Bruno files into an API client (e.g., Bruno) and set th
 - **DELETE /v1/events/:event_id**  
   Deletes an event (only the event creator can delete their own events).
 
+- **GET /v1/events/me**  
+  Retrieves all events created by the current user.
+
+- **GET /v1/events/discover**  
+  Discovers available events with pagination support.
+
 - **GET /v1/users/me**  
   Retrieves details of the currently authenticated user.
 
