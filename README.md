@@ -129,6 +129,9 @@ To use these, import the Bruno files into an API client (e.g., Bruno) and set th
 - **POST /v1/auth/logout**  
   Logs out the current user by invalidating the refresh token.
 
+- **PUT /v1/auth/update-password**  
+  Updates the current user's password. Requires current password verification.
+
 - **POST /v1/events/initialize**  
   Creates a new event with details such as title, description, location, start/end times, and ticket count.
 

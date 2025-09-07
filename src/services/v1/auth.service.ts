@@ -100,6 +100,34 @@ class AuthService {
 
         return true;
     }
+
+    async updatePassword({ body, $currentUser }: Partial<Request>) {
+        const { error, data } = z
+            .object({
+                body: z.object({
+                    current_password: z.string().trim(),
+                    new_password: z.string().min(6).trim()
+                }),
+                $currentUser: z.object({
+                    id: z.string(),
+                    password: z.string()
+                })
+            })
+            .safeParse({ body, $currentUser });
+        if (error) throw new CustomError(extractZodError(error));
+
+        // Verify current password
+        const isCurrentPasswordValid = await bcryptjs.compare(data.body.current_password, data.$currentUser.password);
+        if (!isCurrentPasswordValid) throw new CustomError("Current password is incorrect", 400);
+
+        // Hash new password
+        const hashedNewPassword = await bcryptjs.hash(data.body.new_password, CONFIGS.BCRYPT_SALT_ROUNDS);
+
+        // Update password in database
+        await prisma.user.update({ where: { id: data.$currentUser.id }, data: { password: hashedNewPassword } });
+
+        return { message: "Password updated successfully" };
+    }
 }
 
 export default new AuthService();

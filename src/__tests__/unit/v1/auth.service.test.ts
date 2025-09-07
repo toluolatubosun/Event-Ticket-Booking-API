@@ -112,4 +112,33 @@ describe("Auth Service", () => {
             await expect(AuthService.logout({ body: { refresh_token: dummyRefreshTokenJWT } })).rejects.toThrow();
         });
     });
+
+    describe("updatePassword", () => {
+        it("should update password successfully", async () => {
+            const updatedUser = { ...dummyUser, password: bcryptjs.hashSync("newpassword", CONFIGS.BCRYPT_SALT_ROUNDS) };
+            prismaMock.user.update.mockResolvedValue(updatedUser);
+
+            const result = await AuthService.updatePassword({
+                body: {
+                    current_password: "password",
+                    new_password: "newpassword"
+                },
+                $currentUser: dummyUser
+            });
+
+            expect(result.message).toBe("Password updated successfully");
+        });
+
+        it("should throw error with incorrect current password", async () => {
+            await expect(
+                AuthService.updatePassword({
+                    body: {
+                        current_password: "wrongpassword",
+                        new_password: "newpassword"
+                    },
+                    $currentUser: dummyUser
+                })
+            ).rejects.toThrow("Current password is incorrect");
+        });
+    });
 });

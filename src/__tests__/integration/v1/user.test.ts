@@ -57,4 +57,31 @@ describe("User Endpoints", () => {
         expect(response.body.data).toBeNull();
         expect(response.body.message).toBe("-middleware/user-not-found");
     });
+
+    test("PUT /v1/auth/update-password - should update user password", async () => {
+        const updatedUser = { ...dummyUser, password: bcryptjs.hashSync("newpassword", CONFIGS.BCRYPT_SALT_ROUNDS) };
+        prismaMock.user.findUnique.mockResolvedValue(dummyUser);
+        prismaMock.user.update.mockResolvedValue(updatedUser);
+
+        const response = await request(app).put("/v1/auth/update-password").set("Authorization", `Bearer ${dummyUserJWT}`).send({
+            current_password: "password",
+            new_password: "newpassword"
+        });
+
+        expect(response.status).toBe(200);
+        expect(response.body.data).toBeTruthy();
+        expect(response.body.data.message).toBe("Password updated successfully");
+    });
+
+    test("PUT /v1/auth/update-password - should fail with incorrect current password", async () => {
+        prismaMock.user.findUnique.mockResolvedValue(dummyUser);
+
+        const response = await request(app).put("/v1/auth/update-password").set("Authorization", `Bearer ${dummyUserJWT}`).send({
+            current_password: "wrongpassword",
+            new_password: "newpassword"
+        });
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe("Current password is incorrect");
+    });
 });

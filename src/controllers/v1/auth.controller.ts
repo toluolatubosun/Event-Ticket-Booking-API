@@ -23,6 +23,11 @@ class AuthController {
         const result = await AuthService.logout(req);
         res.status(200).send(response("user logout successful", result));
     }
+
+    async updatePassword(req: Request, res: Response) {
+        const result = await AuthService.updatePassword(req);
+        res.status(200).send(response("password updated successfully", result));
+    }
 }
 
 export default new AuthController();
